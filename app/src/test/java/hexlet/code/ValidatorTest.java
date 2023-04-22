@@ -3,8 +3,6 @@ package hexlet.code;
 import hexlet.code.schemas.NumberSchema;
 import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,7 +59,7 @@ public class ValidatorTest {
 
         assertFalse(schema.isValid(0));
         assertFalse(schema.isValid(-5));
-        assertFalse(schema.isValid(- 3.0));
+        assertFalse(schema.isValid(-3.0));
         assertTrue(schema.isValid(1));
         assertTrue(schema.isValid(4.0));
 
