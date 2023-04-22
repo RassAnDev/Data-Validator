@@ -4,12 +4,29 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class BaseSchema {
-    protected Map<String, Object> checks = new LinkedHashMap<>();
+    protected Map<String, Boolean> checks = new LinkedHashMap<>();
     protected boolean hasRequirements = false;
 
-    public abstract boolean isValid(Object value);
+    protected abstract boolean validate(Object value);
 
-    public void addCheck(String name, Object value) {
+    public boolean isValid(Object value) {
+        if (!hasRequirements) {
+            return true;
+        }
+
+        if (value == null) {
+            return false;
+        }
+
+        if (this instanceof StringSchema) {
+            return this.validate(value);
+        } else if (this instanceof NumberSchema) {
+            return this.validate(value);
+        }
+        return false;
+    }
+
+    protected void addCheck(String name, Boolean value) {
         checks.put(name, value);
     }
 }
