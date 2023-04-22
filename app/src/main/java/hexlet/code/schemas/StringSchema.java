@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class StringSchema extends BaseSchema {
+    private static Integer requiredMinLength;
+    private static String requiredSubstring;
+
     public StringSchema required() {
         addCheck("required", true);
         hasRequirements = true;
@@ -13,32 +16,27 @@ public class StringSchema extends BaseSchema {
     }
 
     public StringSchema minLength(Integer length) {
-        addCheck("minLength", length);
+        requiredMinLength = length;
+        addCheck("minLength", true);
         return this;
     }
 
     public StringSchema contains(String substring) {
-        addCheck("contains", substring);
+        requiredSubstring = substring;
+        addCheck("contains", true);
         return this;
     }
 
-    public boolean isValid(Object value) {
+    public boolean validate(Object value) {
         List<Boolean> passedChecks = new LinkedList<>();
-        if (!hasRequirements) {
-            return true;
-        }
 
-        if (value == null) {
-            return false;
-        }
-
-        for (Map.Entry<String, Object> check : checks.entrySet()) {
+        for (Map.Entry<String, Boolean> check : checks.entrySet()) {
             if (Objects.equals(check.getKey(), "required")) {
                 passedChecks.add(value instanceof String && !((String) value).isEmpty());
             } else if (Objects.equals(check.getKey(), "minLength")) {
-                passedChecks.add(check.getValue().equals(value.toString().length()));
+                passedChecks.add(requiredMinLength.equals(value.toString().length()));
             } else if (Objects.equals(check.getKey(), "contains")) {
-                passedChecks.add(value.toString().contains(check.getValue().toString()));
+                passedChecks.add(value.toString().contains(requiredSubstring));
             }
         }
         return passedChecks.stream().allMatch(v -> v.equals(true));
