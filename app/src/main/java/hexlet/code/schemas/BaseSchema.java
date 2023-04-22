@@ -22,6 +22,8 @@ public abstract class BaseSchema {
             return this.validate(value);
         } else if (this instanceof NumberSchema) {
             return this.validate(value);
+        } else if (this instanceof MapSchema) {
+            return this.validate(value);
         }
         return false;
     }
