@@ -9,12 +9,9 @@ public abstract class BaseSchema {
 
     protected abstract boolean validate(Object value);
 
-    public boolean isValid(Object value) {
-        if (!hasRequirements) {
-            return true;
-        }
+    public final boolean isValid(Object value) {
 
-        if (value == null) {
+        if (hasRequirements && value == null) {
             return false;
         }
 
