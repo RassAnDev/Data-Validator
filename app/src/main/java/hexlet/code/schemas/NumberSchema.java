@@ -28,14 +28,18 @@ public class NumberSchema extends BaseSchema {
 
     public boolean validate(Object value) {
         boolean isNumber = value instanceof Number;
-        Integer intValue = isNumber ? ((Number) value).intValue() : null;
+        Integer intValue = 0;
         List<Boolean> passedChecks = new LinkedList<>();
+
+        if (isNumber) {
+            intValue = ((Number) value).intValue();
+        }
 
         for (Map.Entry<String, Boolean> check : checks.entrySet()) {
             if (Objects.equals(check.getKey(), "required")) {
                 passedChecks.add(isNumber);
             } else if (Objects.equals(check.getKey(), "positive")) {
-                passedChecks.add(isNumber && intValue > 0);
+                passedChecks.add((isNumber && intValue > 0) || value == null);
             } else if (Objects.equals(check.getKey(), "range")) {
                 passedChecks.add(isNumber && intValue >= rangeFrom && intValue <= rangeTo);
             }
