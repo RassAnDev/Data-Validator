@@ -28,15 +28,16 @@ public class StringSchema extends BaseSchema {
     }
 
     public boolean validate(Object value) {
+        boolean isString = value instanceof String;
         List<Boolean> passedChecks = new LinkedList<>();
 
         for (Map.Entry<String, Boolean> check : checks.entrySet()) {
             if (Objects.equals(check.getKey(), "required")) {
-                passedChecks.add(value instanceof String && !((String) value).isEmpty());
+                passedChecks.add(isString && !((String) value).isEmpty());
             } else if (Objects.equals(check.getKey(), "minLength")) {
-                passedChecks.add(requiredMinLength.equals(value.toString().length()));
+                passedChecks.add(isString && value.toString().length() >= requiredMinLength);
             } else if (Objects.equals(check.getKey(), "contains")) {
-                passedChecks.add(value.toString().contains(requiredSubstring));
+                passedChecks.add(isString && value.toString().contains(requiredSubstring));
             }
         }
         return passedChecks.stream().allMatch(v -> v.equals(true));
