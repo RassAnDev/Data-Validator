@@ -17,7 +17,7 @@ public abstract class BaseSchema {
         return checks.values().stream().allMatch(check -> check.test(value));
     }
 
-    protected void addCheck(String name, Predicate validate) {
+    protected final void addCheck(String name, Predicate validate) {
         checks.put(name, validate);
     }
 }
