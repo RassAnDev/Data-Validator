@@ -1,5 +1,5 @@
 package hexlet.code.schemas;
-public class NumberSchema extends BaseSchema {
+public final class NumberSchema extends BaseSchema {
     private static Integer rangeFrom;
     private static Integer rangeTo;
     public NumberSchema required() {
