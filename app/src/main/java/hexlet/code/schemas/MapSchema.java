@@ -3,8 +3,6 @@ package hexlet.code.schemas;
 import java.util.Map;
 
 public final class MapSchema extends BaseSchema {
-    private static Integer mapSize;
-
     public MapSchema required() {
         hasRequirements = true;
         addCheck("required", value -> value instanceof Map && !((Map<?, ?>) value).containsValue(null));
@@ -12,17 +10,13 @@ public final class MapSchema extends BaseSchema {
     }
 
     public MapSchema sizeof(Integer size) {
-        mapSize = size;
-        addCheck("sizeof", value -> value instanceof Map && ((Map<?, ?>) value).size() == mapSize);
+        addCheck("sizeof", value -> ((Map) value).size() == size);
         return this;
     }
 
     public MapSchema shape(Map<String, BaseSchema> schemas) {
-        this.checks.remove("required");
-
-        addCheck("shape", value -> value instanceof Map
-                && schemas.entrySet().stream()
-                .allMatch(v -> v.getValue().isValid(((Map<?, ?>) value).get(v.getKey()))));
+        addCheck("shape", value -> schemas.entrySet().stream()
+                .allMatch(v -> v.getValue().isValid(((Map) value).get(v.getKey()))));
         return this;
     }
 }
