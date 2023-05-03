@@ -1,9 +1,6 @@
 package hexlet.code.schemas;
 
 public final class StringSchema extends BaseSchema {
-    private static Integer requiredMinLength;
-    private static String requiredSubstring;
-
     public StringSchema required() {
         hasRequirements = true;
         addCheck("required", value -> value instanceof String && !((String) value).isEmpty());
@@ -11,16 +8,12 @@ public final class StringSchema extends BaseSchema {
     }
 
     public StringSchema minLength(Integer length) {
-        requiredMinLength = length;
-        addCheck("minLength", value -> value instanceof String
-                && value.toString().length() >= requiredMinLength);
+        addCheck("minLength", value -> ((String) value).length() >= length);
         return this;
     }
 
     public StringSchema contains(String substring) {
-        requiredSubstring = substring;
-        addCheck("contains", value -> value instanceof String
-                && value.toString().contains(requiredSubstring));
+        addCheck("contains", value -> ((String) value).contains(substring));
         return this;
     }
 }
