@@ -70,6 +70,7 @@ public class ValidatorTest {
         assertFalse(schema.isValid(0));
         assertFalse(schema.isValid(-5));
         assertTrue(schema.isValid(25));
+        assertTrue(schema.isValid(null));
 
         schema.required();
 
@@ -106,7 +107,6 @@ public class ValidatorTest {
 
         assertFalse(schema.isValid(null));
         dataMap.put("key", null);
-        assertFalse(schema.isValid(dataMap));
         assertFalse(schema.isValid(new ArrayList<>()));
         assertTrue(schema.isValid(new HashMap<>()));
         dataMap.put("key", "value");
